@@ -9,13 +9,27 @@ package com.jasonwoolard.java1project1;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.LinearLayout;
 
 public class MainActivity extends Activity {
-
+	// Local Variables
+	LinearLayout ll;
+	LinearLayout.LayoutParams llp;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		// Creating the Linear Layout (defining local variable ll)
+		ll = new LinearLayout(this);
+		// Setting the orientation of the Linear Layout to VERTICAL, as opposed to the opposite - HORIZONTAL
+		ll.setOrientation(LinearLayout.VERTICAL);
+		// Setting the value of LLP to Match the Parent View
+		llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+		// Setting the Linear Layouts parameters to the defined local variable 'llp'
+		ll.setLayoutParams(llp);
+				
+		// Setting the content view as the created LinearLayout above
+		setContentView(ll);
 	}
 
 	@Override
