@@ -76,40 +76,8 @@ public class MainActivity extends Activity {
 		// Adding the TextView to the Linear Layout
 		ll.addView(tv2);
 		
-		// Setting Local Variable 'rg'
-		rg = new RadioGroup(this);
-		// Adding the RadioGroup 'rg' to the Linear Layout View
-		ll.addView(rg);
-		
-		// Defining the Linear Layout Parameters for each Radio Button
-		LinearLayout.LayoutParams layoutParams = new LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT);
-		
-		// Creating Radio Buttons to add to Radio Group
-		rb1 = new RadioButton(this);
-		// Setting the Text Size of rb1
-		rb1.setTextSize(12);
-		// Setting the Text of rb1
-		rb1.setText("2013");
-		// Adding rb1 button to the Radio Group with index of 0 && utilizing defined layoutParameters
-		rg.addView(rb1, 0, layoutParams);
-		
-		// Creating Radio Buttons to add to Radio Group
-		rb2 = new RadioButton(this);
-		// Setting the Text Size of rb1
-		rb2.setTextSize(12);
-		// Setting the Text of rb2
-		rb2.setText("2014");		
-		// Adding rb2 button to the Radio Group with index of 0 && utilizing defined layoutParameters
-		rg.addView(rb2, 1, layoutParams);
-		
-		// Creating Radio Buttons to add to Radio Group
-		rb3= new RadioButton(this);
-		// Setting the Text Size of rb1
-		rb3.setTextSize(12);
-		// Setting the Text of rb3
-		rb3.setText("2015");
-		// Adding rb3 button to the Radio Group with index of 0 && utilizing defined layoutParameters
-		rg.addView(rb3, 2, layoutParams);
+		// Calling createRadioGroup method to create and display the Radio Group (w/ radio buttons)
+		createRadioGroup();
 		
 	    // Setting Local Variable 'resultsBtn'
 	    resultsBtn = new Button(this);
@@ -117,15 +85,48 @@ public class MainActivity extends Activity {
 	    resultsBtn.setText(R.string.button_getResults);
 	    // Setting the Buttons Text Size to 14
 	    resultsBtn.setTextSize(14);
-	    // Setting the Buttons Background Color to Light Gray
-	    resultsBtn.setBackgroundColor(Color.LTGRAY);
+	    // Setting the Text Color for the Results Button
+	    resultsBtn.setTextColor(Color.WHITE);
+	    // Setting the Buttons Background Color to Dark Gray
+	    resultsBtn.setBackgroundColor(Color.DKGRAY);
 	    // Adding the Results Button to the Linear Layout
 	    ll.addView(resultsBtn);
 	    
 		// Setting the content view as the created LinearLayout above
 		setContentView(ll);
 	}
-
+	// Private Method to Create the Radio Group w/ Buttons for Video Game Release Years
+	private void createRadioGroup() {
+		// Setting the Local Variable 'rg' by creating the Radio Group
+		rg = new RadioGroup(this);
+		// Storing an array of Strings to be used for the Radio Buttons Text
+		String[] releaseYears = new String[] { "2013", "2014", "2015" };
+		// Creating an array of RadioButtons based on the amount of objects in the releaseYears array of strings
+		RadioButton[] rb = new RadioButton[releaseYears.length];
+		// Setting the Radio Groups Orientation to Vertical as opposed to Horizontal
+		rg.setOrientation(RadioGroup.VERTICAL);
+		// Creating a For Loop to Cycle through & create each button / set properties based off releaseYears length and index.
+		for (int i = 0; i < releaseYears.length; i++) {
+			rb[i] = new RadioButton(this);
+			// Setting the Layout Parameters for the Radio Buttons to Fill the Parent's Width
+			LinearLayout.LayoutParams layoutParams = new LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT);
+			// Adding the RadioButtons to the RadioGroup
+			rg.addView(rb[i], layoutParams); 
+			// Setting each Radio Button's text color to Black
+			rb[i].setTextColor(Color.BLACK);
+			// Setting each Radio Button's Text based off the index in the releaseYears array
+			rb[i].setText(releaseYears[i]);
+			// Setting each Radio Button's Text Size to 12
+			rb[i].setTextSize(12);
+		}
+		// Checking the first Radio Button as default
+		rb[0].setChecked(true);
+		// Setting Light Gray Design Background to Alternate Radio Buttons
+		rb[0].setBackgroundColor(Color.LTGRAY);
+		rb[2].setBackgroundColor(Color.LTGRAY);
+		// Adding the Radio Group (w/ buttons) to the Linear Layout
+		ll.addView(rg);
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
