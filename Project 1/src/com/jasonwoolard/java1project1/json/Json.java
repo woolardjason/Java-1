@@ -1,3 +1,10 @@
+/*
+ * Jason Woolard
+ * Java 1 - Project 1
+ * Full Sail University
+ * Term 1312
+ */
+
 package com.jasonwoolard.java1project1.json;
 
 import org.json.JSONException;
