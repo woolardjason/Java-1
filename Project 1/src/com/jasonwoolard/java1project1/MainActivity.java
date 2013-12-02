@@ -32,12 +32,12 @@ public class MainActivity extends Activity {
 	TextView resultsLabel;
 	TextView resultsView;
 	String[] gameList;
-	// Setting 're' Local Variable to return the resources for apps package
-	Resources re = getResources();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Setting 're' variable to return the resources for apps package
+		Resources re = getResources();
 		// Creating the Linear Layout (defining local variable ll)
 		ll = new LinearLayout(this);
 		// Setting the orientation of the Linear Layout to VERTICAL, as opposed to the opposite - HORIZONTAL
