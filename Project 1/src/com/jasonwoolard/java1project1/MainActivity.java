@@ -6,11 +6,14 @@
  */
 package com.jasonwoolard.java1project1;
 
+import com.jasonwoolard.java1project1.json.Json;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -24,11 +27,10 @@ public class MainActivity extends Activity {
 	LinearLayout.LayoutParams llp;
 	TextView tv;
 	TextView tv2;
+	TextView resultsView;
 	Button resultsBtn;
 	RadioGroup rg;
-	RadioButton rb1;
-	RadioButton rb2;
-	RadioButton rb3;
+	RadioButton[] rb;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,8 @@ public class MainActivity extends Activity {
 		ll.addView(tv2);
 		
 		// Calling createRadioGroup method to create and display the Radio Group (w/ radio buttons)
+		// TODO: Replace RadioGroup idea with possibly a gridview or listview displaying recent video game release posts, as well as allowing users to filter through them as part of the 'request' portion of the assignment. 
+		// TODO: Sticking with Radiogroup to check if enum data is properly being displayed...Time to attempt Grid or List View?
 		createRadioGroup();
 		
 	    // Setting Local Variable 'resultsBtn'
@@ -89,10 +93,29 @@ public class MainActivity extends Activity {
 	    resultsBtn.setTextColor(Color.WHITE);
 	    // Setting the Buttons Background Color to Dark Gray
 	    resultsBtn.setBackgroundColor(Color.DKGRAY);
+	    resultsBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// Get Info from JSON Object
+				int id = rg.getCheckedRadioButtonId();
+				RadioButton rb = (RadioButton) findViewById(id);
+				String selected = rb.getText().toString();
+				resultsView.setText(Json.readJSON(selected));
+				
+			}
+		});
 	    // Adding the Results Button to the Linear Layout
 	    ll.addView(resultsBtn);
 	    
-		// Setting the content view as the created LinearLayout above
+	    // Setting the Result View Local Variable
+	    resultsView = new TextView(this);
+	    resultsView.setLayoutParams(llp);
+	    resultsView.setText("Make a selected and hit search to display results!");
+	    resultsView.setGravity(Gravity.CENTER_HORIZONTAL);
+	    ll.addView(resultsView);
+	    
+	    // Setting the content view as the created LinearLayout above
 		setContentView(ll);
 	}
 	// Private Method to Create the Radio Group w/ Buttons for Video Game Release Years
@@ -100,9 +123,9 @@ public class MainActivity extends Activity {
 		// Setting the Local Variable 'rg' by creating the Radio Group
 		rg = new RadioGroup(this);
 		// Storing an array of Strings to be used for the Radio Buttons Text
-		String[] releaseYears = new String[] { "2013", "2014", "2015" };
+		String[] releaseYears = new String[] { "GAME1", "GAME2", "GAME3", "GAME4", "GAME5" };
 		// Creating an array of RadioButtons based on the amount of objects in the releaseYears array of strings
-		RadioButton[] rb = new RadioButton[releaseYears.length];
+		rb = new RadioButton[releaseYears.length];
 		// Setting the Radio Groups Orientation to Vertical as opposed to Horizontal
 		rg.setOrientation(RadioGroup.VERTICAL);
 		// Creating a For Loop to Cycle through & create each button / set properties based off releaseYears length and index.
