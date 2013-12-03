@@ -9,11 +9,11 @@
 	<string name="headerText">Upcoming Video Game Releases</string>
 	<string name="gameDetailText">More Game Details:</string>
 	<string name="gameDetailHint">Click an upcoming game above to view more details!</string>
+	<string name="reminderBtnText">Save as Reminder</string>
 	<string-array name="gameList">
 	    <item>iBattlefield</item>
 	    <item>FFXV</item>
 	    <item>Destiny</item>
 	    <item>COD5</item>
-	    <item>Virulent</item>
 	</string-array>
 </resources>

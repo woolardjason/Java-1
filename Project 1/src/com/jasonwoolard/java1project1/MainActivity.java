@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ public class MainActivity extends Activity {
 	TextView resultsLabel;
 	TextView resultsView;
 	String[] gameList;
+	Button reminderBtn;
+	Button viewReminderBtn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +85,8 @@ public class MainActivity extends Activity {
 		subheader.setTextColor(Color.WHITE);
 		// Adding the TextView to the Linear Layout
 		ll.addView(subheader);
-
+		
+		// Setting the String Array 'gameList' to the gameList string array located in resources
 		gameList = re.getStringArray(R.array.gameList);
 		
 		// Create List Adapter
@@ -119,7 +123,32 @@ public class MainActivity extends Activity {
 		resultsView.setTextColor(Color.WHITE);
 		resultsView.setGravity(Gravity.CENTER_HORIZONTAL);
 		ll.addView(resultsView);
-
+		
+		// Setting the reminderBtn Local Variable
+		reminderBtn = new Button(this);
+		reminderBtn.setText(R.string.reminderBtnText);
+		reminderBtn.setTextSize(12);
+		reminderBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// If Conditional to check if a Video Game's loaded when trying to save it out to remind.
+				if (resultsView.getText().toString().length() <= 0 || resultsView.getText().toString().contains("Click an upcoming game above to view more details!"))
+				{
+					resultsView.setText("No video game selected to save as a reminder!");
+				}
+				else
+				{
+				}
+			}
+		});
+		ll.addView(reminderBtn);
+		
+		// Setting the viewReminderBtn Local Variable
+		viewReminderBtn = new Button(this);
+		viewReminderBtn.setText("View Saved Reminders");
+		viewReminderBtn.setTextSize(12);
+		ll.addView(viewReminderBtn);
+		
 		// Setting the content view as the created LinearLayout above
 		setContentView(ll);
 	}
