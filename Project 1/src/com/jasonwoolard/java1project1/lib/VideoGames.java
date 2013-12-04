@@ -13,7 +13,8 @@ public class VideoGames {
 		iBattlefield("iBattleField", "United States", "ESRB:E", "Playstation 3", "2013-12-10"),
 		FFXV("Final Fantasy XV", "United States", "ESRB:E", "Nintendo Wii", "2013-12-22"),
 		Destiny("Destiny", "Canada", "ESRB", "Xbox 360", "2014-01-20"),
-		COD5("Call of Duty 5", "Europe", "ESRB:E", "Xbox One", "2014-10-12");
+		COD5("Call of Duty 5", "Europe", "ESRB:E", "Xbox One", "2014-10-12"),
+		Virulent("Virulent", "Canada", "ESRB", "PC", "2014-11-15");
 		// String Variables
 		private final String gameTitle;
 		private final String gameRegion;

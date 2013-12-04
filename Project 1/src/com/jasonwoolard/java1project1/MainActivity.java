@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,9 +33,10 @@ public class MainActivity extends Activity {
 	TextView subheader;
 	TextView resultsLabel;
 	TextView resultsView;
+	TextView filterLabel;
 	String[] gameList;
-	Button reminderBtn;
-	Button viewReminderBtn;
+	Button searchBtn;
+	EditText searchField;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class MainActivity extends Activity {
 		// Setting the Linear Layouts parameters to the defined local variable 'llp'
 		ll.setLayoutParams(llp);
 
-		// Setting Local Variable 'tv'
+		// Setting Local Variable 'header'
 		header = new TextView(this);
 		// Setting the Text for the created TextView
 		header.setText(R.string.headerText);
@@ -60,29 +62,62 @@ public class MainActivity extends Activity {
 		header.setGravity(Gravity.CENTER);
 		// Setting the TextView's Text color to White
 		header.setTextColor(Color.WHITE);
-		// Setting the TextView's Text Size to 20
-		header.setTextSize(20);
+		// Setting the TextView's Text Size to 16
+		header.setTextSize(16);
 		// Setting the TextView's Background Color to dark gray
 		header.setBackgroundColor(Color.DKGRAY);
 		// Setting the TextView's Text Color to White
 		header.setTextColor(Color.WHITE);
 		// Adding the TextView to the Linear Layout
 		ll.addView(header);
+		
+		// Setting Local Variable 'filterLabel'
+		 filterLabel = new TextView(this);
+		 // Setting the Text for the created TextView
+		 filterLabel.setText(R.string.filterText);
+		 // Setting the TextView Object to the center of it's container
+		 filterLabel.setGravity(Gravity.CENTER);
+		 // Setting the Textview's Text Color to dark gray
+		 filterLabel.setTextColor(Color.DKGRAY);
+		 // Setting the Textview's Text Size to 14
+		 filterLabel.setTextSize(14);
+		 // Setting the Textview's background color to light gray
+		 filterLabel.setBackgroundColor(Color.LTGRAY);
+		 // Adding the TextView to the Linear Layout
+		 ll.addView(filterLabel);
 
-		// Setting Local Variable 'tv'
+		 // Setting Local Variable 'searchField'
+		searchField = new EditText(this);
+		// Setting PlaceHolder Text for searchField
+		searchField.setHint(R.string.searchFieldHint);
+		// Setting Max Lines to 1 
+		searchField.setSingleLine(true);
+		// Setting Textsize of searchField
+		searchField.setTextSize(12);
+		// Adding the EditText field to the Linear Layout
+		ll.addView(searchField);
+		
+		// Setting Local Variable 'searchBtn'
+		searchBtn = new Button(this);
+		// Setting the Text for the button
+		searchBtn.setText("SEARCH!");
+		// Setting the Text Size for the button
+		searchBtn.setTextSize(12);
+		// Adding the Button to the Linear Layout
+		ll.addView(searchBtn);
+		
+		// Setting Local Variable 'subheader'
 		subheader = new TextView(this);
 		// Setting the Text for the created TextView
 		subheader.setText(R.string.chooseGame);
 		// Setting the TextView Object to the center of it's container
 		subheader.setGravity(Gravity.CENTER);
-		// Setting the TextView's Text color to White
-		subheader.setTextColor(Color.WHITE);
 		// Setting the TextView's Text Size to 12
 		subheader.setTextSize(12);
-		// Setting the TextView's Background Color to dark gray
-		subheader.setBackgroundColor(Color.DKGRAY);
-		// Setting the TextView's Text Color to White
-		subheader.setTextColor(Color.WHITE);
+		// Setting the TextView's Background Color to Light Gray
+		subheader.setBackgroundColor(Color.LTGRAY);
+		// Setting the TextView's Text Color to Dark Gray
+		subheader.setTextColor(Color.DKGRAY);
 		// Adding the TextView to the Linear Layout
 		ll.addView(subheader);
 		
@@ -111,43 +146,20 @@ public class MainActivity extends Activity {
 		// Setting the Results Label View Local Variable
 		resultsLabel = new TextView(this);
 		resultsLabel.setText(R.string.gameDetailText);
-		resultsLabel.setTextColor(Color.WHITE);
-		resultsLabel.setBackgroundColor(Color.DKGRAY);
+		resultsLabel.setTextColor(Color.DKGRAY);
+		resultsLabel.setTextSize(12);
+		resultsLabel.setBackgroundColor(Color.LTGRAY);
 		resultsLabel.setGravity(Gravity.CENTER);
 		ll.addView(resultsLabel);
 
 		// Setting the Result View Local Variable
 		resultsView = new TextView(this);
 		resultsView.setText(R.string.gameDetailHint);
-		resultsView.setBackgroundColor(Color.LTGRAY);
+		resultsView.setBackgroundColor(Color.DKGRAY);
 		resultsView.setTextColor(Color.WHITE);
+		resultsView.setTextSize(10);
 		resultsView.setGravity(Gravity.CENTER_HORIZONTAL);
 		ll.addView(resultsView);
-		
-		// Setting the reminderBtn Local Variable
-		reminderBtn = new Button(this);
-		reminderBtn.setText(R.string.reminderBtnText);
-		reminderBtn.setTextSize(12);
-		reminderBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// If Conditional to check if a Video Game's loaded when trying to save it out to remind.
-				if (resultsView.getText().toString().length() <= 0 || resultsView.getText().toString().contains("Click an upcoming game above to view more details!"))
-				{
-					resultsView.setText("No video game selected to save as a reminder!");
-				}
-				else
-				{
-				}
-			}
-		});
-		ll.addView(reminderBtn);
-		
-		// Setting the viewReminderBtn Local Variable
-		viewReminderBtn = new Button(this);
-		viewReminderBtn.setText("View Saved Reminders");
-		viewReminderBtn.setTextSize(12);
-		ll.addView(viewReminderBtn);
 		
 		// Setting the content view as the created LinearLayout above
 		setContentView(ll);
