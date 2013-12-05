@@ -8,12 +8,14 @@
 package com.jasonwoolard.java1project1;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jasonwoolard.java1project1.json.Json;
 
@@ -103,6 +106,27 @@ public class MainActivity extends Activity {
 		searchBtn.setText("SEARCH!");
 		// Setting the Text Size for the button
 		searchBtn.setTextSize(12);
+		searchBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// If conditional checking length of the searchField to ensure user has typed in text before conducting what would be a search in project 2.
+				if (searchField.length() == 0)
+				{
+					// Setting resultsView text
+					resultsView.setBackgroundColor(Color.RED);
+					resultsView.setText("Please enter a video game title before attempting to search.");
+				}
+				else
+				{
+					// Displaying a Toast to inform users of the video filtering being available in project 2 when data's being pulled from the api
+					Toast.makeText(MainActivity.this, "Video filtering by title will be available in project 2 when pulling from api.", Toast.LENGTH_LONG).show();
+				}
+				// Utilizing InputMethodManager to Dismiss the android keyboard
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
+			}
+		});
 		// Adding the Button to the Linear Layout
 		ll.addView(searchBtn);
 		
@@ -135,6 +159,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				// Resetting resultsView background color, in case it was changed during an error from onClickEvent for Search btn.
+				resultsView.setBackgroundColor(Color.DKGRAY);
 				// Setting the selected string to the clicked gameList object within the string array (then calling toString method to pass in below)
 				String selected = gameList[position].toString();
 				// Setting the resultsView (textview) to the passed in selected 'enum'
