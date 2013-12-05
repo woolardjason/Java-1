@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
 		// Setting Local Variable 'searchBtn'
 		searchBtn = new Button(this);
 		// Setting the Text for the button
-		searchBtn.setText("SEARCH!");
+		searchBtn.setText(R.string.searchBtn);
 		// Setting the Text Size for the button
 		searchBtn.setTextSize(12);
 		searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -115,12 +115,12 @@ public class MainActivity extends Activity {
 				{
 					// Setting resultsView text
 					resultsView.setBackgroundColor(Color.RED);
-					resultsView.setText("Please enter a video game title before attempting to search.");
+					resultsView.setText(R.string.searchError);
 				}
 				else
 				{
 					// Displaying a Toast to inform users of the video filtering being available in project 2 when data's being pulled from the api
-					Toast.makeText(MainActivity.this, "Video filtering by title will be available in project 2 when pulling from api.", Toast.LENGTH_LONG).show();
+					Toast.makeText(MainActivity.this, R.string.toastMsg, Toast.LENGTH_LONG).show();
 				}
 				// Utilizing InputMethodManager to Dismiss the android keyboard
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

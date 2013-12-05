@@ -46,7 +46,10 @@ public final class R {
         public static final int headerText=0x7f050005;
         public static final int hello_world=0x7f050001;
         public static final int reminderBtnText=0x7f050008;
+        public static final int searchBtn=0x7f05000b;
+        public static final int searchError=0x7f05000c;
         public static final int searchFieldHint=0x7f05000a;
+        public static final int toastMsg=0x7f05000d;
     }
     public static final class style {
         /** 
