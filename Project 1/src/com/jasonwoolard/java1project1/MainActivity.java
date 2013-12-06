@@ -75,27 +75,27 @@ public class MainActivity extends Activity {
 		ll.addView(header);
 		
 		// Setting Local Variable 'filterLabel'
-		 filterLabel = new TextView(this);
-		 // Setting the Text for the created TextView
-		 filterLabel.setText(R.string.filterText);
-		 // Setting the TextView Object to the center of it's container
-		 filterLabel.setGravity(Gravity.CENTER);
-		 // Setting the Textview's Text Color to dark gray
-		 filterLabel.setTextColor(Color.DKGRAY);
-		 // Setting the Textview's Text Size to 14
-		 filterLabel.setTextSize(14);
-		 // Setting the Textview's background color to light gray
-		 filterLabel.setBackgroundColor(Color.LTGRAY);
-		 // Adding the TextView to the Linear Layout
-		 ll.addView(filterLabel);
+		filterLabel = new TextView(this);
+		// Setting the Text for the created TextView
+		filterLabel.setText(R.string.filterText);
+		// Setting the TextView Object to the center of it's container
+		filterLabel.setGravity(Gravity.CENTER);
+		// Setting the Textview's Text Color to dark gray
+		filterLabel.setTextColor(Color.DKGRAY);
+		// Setting the Textview's Text Size to 14
+		filterLabel.setTextSize(14);
+		// Setting the Textview's background color to light gray
+		filterLabel.setBackgroundColor(Color.LTGRAY);
+		// Adding the TextView to the Linear Layout
+		ll.addView(filterLabel);
 
-		 // Setting Local Variable 'searchField'
+		// Setting Local Variable 'searchField'
 		searchField = new EditText(this);
 		// Setting PlaceHolder Text for searchField
 		searchField.setHint(R.string.searchFieldHint);
 		// Setting Max Lines to 1 
 		searchField.setSingleLine(true);
-		// Setting Textsize of searchField
+		// Setting Text Size of searchField
 		searchField.setTextSize(12);
 		// Adding the EditText field to the Linear Layout
 		ll.addView(searchField);
@@ -106,14 +106,14 @@ public class MainActivity extends Activity {
 		searchBtn.setText(R.string.searchBtn);
 		// Setting the Text Size for the button
 		searchBtn.setTextSize(12);
+		// Setting the onClickListener (methods called when clicked) for the searchBtn
 		searchBtn.setOnClickListener(new View.OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// If conditional checking length of the searchField to ensure user has typed in text before conducting what would be a search in project 2.
 				if (searchField.length() == 0)
 				{
-					// Setting resultsView text
+					// Setting resultsView text to predefined string & background color to red
 					resultsView.setBackgroundColor(Color.RED);
 					resultsView.setText(R.string.searchError);
 				}
@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
 		// Adding the Button to the Linear Layout
 		ll.addView(searchBtn);
 		
-		// Setting Local Variable 'subheader'
+		// Setting Local Variable 'sub header'
 		subheader = new TextView(this);
 		// Setting the Text for the created TextView
 		subheader.setText(R.string.chooseGame);
@@ -169,22 +169,26 @@ public class MainActivity extends Activity {
 		});
 		ll.addView(listView);
 
-		// Setting the Results Label View Local Variable
+		// Setting the Results Text View Local Variable
 		resultsLabel = new TextView(this);
+		// Setting the Results Text View Properties (text, text color, text size, background color, and gravity) 
 		resultsLabel.setText(R.string.gameDetailText);
 		resultsLabel.setTextColor(Color.DKGRAY);
 		resultsLabel.setTextSize(12);
 		resultsLabel.setBackgroundColor(Color.LTGRAY);
 		resultsLabel.setGravity(Gravity.CENTER);
+		// Adding the Results Text View to the Linear Layout
 		ll.addView(resultsLabel);
 
 		// Setting the Result View Local Variable
 		resultsView = new TextView(this);
+		// Setting the Results Text View Properties (text, text color, text size, background color, and gravity) 
 		resultsView.setText(R.string.gameDetailHint);
 		resultsView.setBackgroundColor(Color.DKGRAY);
 		resultsView.setTextColor(Color.WHITE);
 		resultsView.setTextSize(10);
 		resultsView.setGravity(Gravity.CENTER_HORIZONTAL);
+		// Adding the Results Text View to the Linear Layout
 		ll.addView(resultsView);
 		
 		// Setting the content view as the created LinearLayout above
