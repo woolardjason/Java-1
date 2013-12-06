@@ -111,7 +111,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// If conditional checking length of the searchField to ensure user has typed in text before conducting what would be a search in project 2.
-				if (searchField.length() == 0)
+				int z = 0;
+				if (searchField.length() == z)
 				{
 					// Setting resultsView text to predefined string & background color to red
 					resultsView.setBackgroundColor(Color.RED);
