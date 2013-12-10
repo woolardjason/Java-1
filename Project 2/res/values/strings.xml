@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Java 1 Project 1</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="action_settings">Settings</string>
+	<string name="button_getResults">Search!</string>
+	<string name="chooseGame">Choose Game to View More Details!</string>
+	<string name="headerText">Upcoming Video Game Releases</string>
+	<string name="gameDetailText">More Game Details:</string>
+	<string name="gameDetailHint">Click an upcoming game above to view more details!</string>
+	<string name="reminderBtnText">Save as Reminder</string>
+	<string name="filterText">Search Video Games by Title</string>
+	<string name="searchFieldHint">Enter Game Title</string>
+	<string name="searchBtn">SEARCH!</string>
+	<string name="searchError">Please enter a video game title before attempting to search.</string>
+	<string name="toastMsg">Video filtering by title will be available in project 2 when pulling from api.</string>
+	<string-array name="gameList">
+	    <item>iBattlefield</item>
+	    <item>FFXV</item>
+	    <item>Destiny</item>
+	    <item>COD5</item>
+	    <item>Virulent</item>
+	</string-array>
+</resources>
