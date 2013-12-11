@@ -7,18 +7,20 @@
 
 package com.jasonwoolard.java1project1;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.jasonwoolard.java1project1.web.WebClass;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,18 +29,16 @@ import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jasonwoolard.java1project1.json.Json;
-
-public class MainActivity extends Activity {
+public class MainActivity extends Activity 
+{
 	// Local Variables
 	static String mTAG = "NETWORK ACTIVITY - MainActivity Class";
 	public static String mUrlString = "http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&filter=expected_release_year:2014&format=json&limit=5&sort=original_release_date:asc";
@@ -49,18 +49,30 @@ public class MainActivity extends Activity {
 	TextView resultsLabel;
 	static TextView resultsView;
 	TextView filterLabel;
-	String[] gameList;
 	Button searchBtn;
 	EditText searchField;
 	Context context;
+	ListView list;
+	TextView name;
+	TextView deck;
+	TextView release;
+	Boolean mConnected = false;
+
+	// Node names from JSON Data
+	private static final String TAG_PARENT = "results";
+	private static final String TAG_NAME = "name";
+	private static final String TAG_DECK = "deck";
+	private static final String TAG_RELEASE = "expected_release_year";
 	
-	
+	ArrayList<HashMap<String, String>> gameList;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = this;
+        gameList = new ArrayList<HashMap<String, String>>();
+
 		// Setting 're' variable to return the resources for apps package
-		Resources re = getResources();
 		// Creating the Linear Layout (defining local variable ll)
 		ll = new LinearLayout(this);
 		// Setting the orientation of the Linear Layout to VERTICAL, as opposed to the opposite - HORIZONTAL
@@ -97,8 +109,8 @@ public class MainActivity extends Activity {
 		filterLabel.setGravity(Gravity.CENTER);
 		// Setting the Textview's Text Color to dark gray
 		filterLabel.setTextColor(Color.DKGRAY);
-		// Setting the Textview's Text Size to 14
-		filterLabel.setTextSize(14);
+		// Setting the Textview's Text Size to 12
+		filterLabel.setTextSize(12);
 		// Setting the Textview's background color to light gray
 		filterLabel.setBackgroundColor(Color.LTGRAY);
 		// Adding the TextView to the Linear Layout
@@ -135,8 +147,15 @@ public class MainActivity extends Activity {
 				}
 				else
 				{
-					// Displaying a Toast to inform users of the video filtering being available in project 2 when data's being pulled from the api
-					Toast.makeText(MainActivity.this, R.string.toastMsg, Toast.LENGTH_LONG).show();
+					mConnected = WebClass.grabConnectionStatus(context);
+					if (mConnected)
+					{
+						performSearch("http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&format=json&limit=5&sort=original_release_date:asc&filter=expected_release_year:2014|2100,name:"+searchField.getText().toString());
+					}
+					else
+					{
+						resultsView.setText("You are not connected to the internet, please check your connection and try again.");
+					}
 				}
 				// Utilizing InputMethodManager to Dismiss the android keyboard
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -160,30 +179,11 @@ public class MainActivity extends Activity {
 		subheader.setTextColor(Color.DKGRAY);
 		// Adding the TextView to the Linear Layout
 		ll.addView(subheader);
-		
-		// Setting the String Array 'gameList' to the gameList string array located in resources
-		gameList = re.getStringArray(R.array.gameList);
-		
-		// Create List Adapter
-		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, gameList);
-
+				
 		// Create List View
-		ListView listView = new ListView(this);
-		listView.setAdapter(listAdapter);
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				// Resetting resultsView background color, in case it was changed during an error from onClickEvent for Search btn.
-				resultsView.setBackgroundColor(Color.DKGRAY);
-				// Setting the selected string to the clicked gameList object within the string array (then calling toString method to pass in below)
-				String selected = gameList[position].toString();
-				// Setting the resultsView (textview) to the passed in selected 'enum'
-				resultsView.setText(Json.readJSON(selected));
-			}
-		});
-		ll.addView(listView);
+		list = new ListView(this);
+		list.setId(15);
+		ll.addView(list);
 
 		// Setting the Results Text View Local Variable
 		resultsLabel = new TextView(this);
@@ -199,12 +199,10 @@ public class MainActivity extends Activity {
 		// Setting the Result View Local Variable
 		resultsView = new TextView(this);
 		// Checking connection status by calling the method with context as argument.
-		if (checkConnectionStatus(context))
+		mConnected = WebClass.grabConnectionStatus(context);
+		if (mConnected)
 		{
-			// instantiating grabData into 'data'
-			grabData data = new grabData();
-			// executing data (grabData method) by passing in mUrlString (api url)
-			data.execute(mUrlString);
+			performSearch(mUrlString);
 		}
 		else
 		{
@@ -221,98 +219,100 @@ public class MainActivity extends Activity {
 		// Setting the content view as the created LinearLayout above
 		setContentView(ll);
 	}
-	// checkConnectionStatus method
-	public Boolean checkConnectionStatus(Context context)
+	private void performSearch(String item){
+		
+		String initialURL = item;
+		
+		URL finalURL;
+		try{
+			finalURL = new URL(initialURL);
+			grabData gd = new grabData();
+			gd.execute(finalURL);
+		} catch (MalformedURLException e){
+			Log.e("INCORRECT URL", "CHECK URL PASSED");
+			finalURL = null;
+		}
+	}
+	// Private 'grabData' class extending from AsyncTask (asynchronous)
+	private class grabData extends AsyncTask<URL, Void, String>
 	{
-		// setting isConnected to false by default
-		Boolean isConnected = false;
-		// Obtaining context system service /Connectivity_Service
-		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		// Obtaining active network info for created connectivitymanager instance
-		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-		// checking if networkInfo is null or not
-		if (networkInfo != null)
+		//onPreExecute Method - Setting TextView Cars to TextView IDS located in xml
+		protected void onPreExecute() 
 		{
-			// checking if network info is connected
-			if (networkInfo.isConnected())
-			{
-				// logging connection type if connected, and networkInfo is not null
-				Log.i(mTAG, "connection type: " + networkInfo.getTypeName());
-				// setting isConnected to true if connected and networkInfo is not null
-				isConnected = true;
-			}
-		}
-		// returning isConnected boolean
-		return isConnected;
-	}
-	// getURLResponse method
-	public static String getURLResponse(URL url)
-	{
-		// Resetting response var by setting it to equal nothing.
-		String response = "";
-		try {
-			// Initializing URLConnection 
-			URLConnection connection = url.openConnection();
-			// Setting created bufferedinputstring to connection input stream
-			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-			// Setting contextByte
-			byte[] contextByte = new byte[1024];
-			// Setting int bytesRead
-			int bytesRead = 0;
-			// Setting StringBuffer entitled responseBuffer to new StringBuffer
-			StringBuffer responseBuffer = new StringBuffer();
-			// While conditional to check while bytesRead is 
-			while ((bytesRead = bis.read(contextByte)) != -1)
-			{
-				response = new String(contextByte, 0, bytesRead);
-				responseBuffer.append(response);
-			}
-			response = responseBuffer.toString();
-			Log.i(mTAG, response);
-			
-		} catch (IOException e) {
-			
-			response = "Something happened, no info returned!";
-			Log.e(mTAG, "Something happened, no info returned!", e);
-		}
-		return response;
-	}
-	// Static 'grabData' class extending from AsyncTask (asynchronous)
-	static class grabData extends AsyncTask<String, Void, String>
-	{
-
+			super.onPreExecute();
+			// Clearing out the GameList
+			gameList.clear();
+	        name = (TextView)findViewById(R.id.name);
+	        deck = (TextView)findViewById(R.id.deck);
+	        release = (TextView)findViewById(R.id.release);  
+	    }
 		@Override
-		protected String doInBackground(String... params) {
+		protected String doInBackground(URL... urls) {
 			// Resetting URL
-			String URL = "";
-			try {
-				// Setting baseURL to mUrlString
-				URL baseURL = new URL(mUrlString);
-				// Calling getURLResponse on mUrlString (baseURL)
-				URL = getURLResponse(baseURL);
-			} catch (MalformedURLException e) {
-				// Setting response string to default response error message
-				URL = "Something happened again!";
-				// Logging the error
-				Log.e(mTAG, "ERROR: ", e);
+			String fURL = "";
+			for (URL url: urls)
+			{
+				fURL = WebClass.getURLResponse(url);
 			}
-			
-			return URL;
+			return fURL;
 		}
 		// OnPostExecute method
 		protected void onPostExecute(String result)
 		{
+			try {
+				JSONObject json = new JSONObject(result);
+				JSONArray results = json.getJSONArray(TAG_PARENT);
+				
+				int j = results.length();
+				for(int i=0; i<j; i++){
+    				JSONObject jo = results.getJSONObject(i);
+    				
+    				// Storing  JSON Nodes into separate strings
+    				String nam = jo.getString(TAG_NAME);
+    				String dec = jo.getString(TAG_DECK);
+    				String rel = jo.getString(TAG_RELEASE);
+    				// Creating HashMap entitled map and initializing it
+    				HashMap<String, String> map = new HashMap<String, String>();
+    				// Putting JSON nodes into map
+        			map.put(TAG_RELEASE, rel);
+    				map.put(TAG_NAME, nam);
+    				map.put(TAG_DECK, dec);
+    				// Adding data to gameList Local var
+    				gameList.add(map);
+    				// Setting list local var to created listView (oncreate)
+    				list=(ListView)findViewById(15);
+    				
+    				ListAdapter adapter = new SimpleAdapter(MainActivity.this, gameList,
+    						R.layout.list_view,
+    						new String[] { TAG_NAME, TAG_RELEASE }, new int[] {
+    								R.id.name, R.id.release});
+
+    				list.setAdapter(adapter);
+    				list.setOnItemClickListener(new AdapterView.OnItemClickListener() 
+    				{
+    					@Override
+    		            public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
+    		            {
+    						resultsView.setBackgroundColor(Color.DKGRAY);
+    		                resultsView.setText("Game: " + gameList.get(+position).get("name") + "\n" +
+    		                					"About Game: " + gameList.get(+position).get("deck") + "\n" +
+    		                					"Release Year: " + gameList.get(+position).get("expected_release_year"));
+    		            }
+    		       });
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// Temporarily setting the resultsView to JSON data returned from 'result'.
 			resultsView.setText(result);
-			super.onPostExecute(result);
 		}
-		
 	}
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
 }
