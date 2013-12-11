@@ -10,16 +10,15 @@
 	<string name="gameDetailText">More Game Details:</string>
 	<string name="gameDetailHint">Click an upcoming game above to view more details!</string>
 	<string name="reminderBtnText">Save as Reminder</string>
-	<string name="filterText">Search Video Games by Title</string>
+	<string name="filterText">Search Video Games by Year</string>
 	<string name="searchFieldHint">Enter Game Title</string>
 	<string name="searchBtn">SEARCH!</string>
 	<string name="searchError">Please enter a video game title before attempting to search.</string>
 	<string name="toastMsg">Video filtering by title will be available in project 2 when pulling from api.</string>
-	<string-array name="gameList">
-	    <item>iBattlefield</item>
-	    <item>FFXV</item>
-	    <item>Destiny</item>
-	    <item>COD5</item>
-	    <item>Virulent</item>
+	<string-array name="yearArray">
+	    <item>2014</item>
+	    <item>2015</item>
+	    <item>2016</item>
+	    <item>2017</item>
 	</string-array>
 </resources>

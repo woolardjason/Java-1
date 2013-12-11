@@ -1,6 +1,6 @@
 /*
  * Jason Woolard
- * Java 1 - Project 1
+ * Java 1 - Project 2
  * Full Sail University
  * Term 1312
  */
@@ -16,8 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.jasonwoolard.java1project1.web.WebClass;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -27,15 +25,19 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.jasonwoolard.java1project1.web.WebClass;
 
 public class MainActivity extends Activity 
 {
@@ -57,7 +59,8 @@ public class MainActivity extends Activity
 	TextView deck;
 	TextView release;
 	Boolean mConnected = false;
-
+	String [] mReleaseYears;
+	
 	// Node names from JSON Data
 	private static final String TAG_PARENT = "results";
 	private static final String TAG_NAME = "name";
@@ -71,7 +74,8 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		context = this;
         gameList = new ArrayList<HashMap<String, String>>();
-
+        mReleaseYears = getResources().getStringArray(R.array.yearArray);
+        
 		// Setting 're' variable to return the resources for apps package
 		// Creating the Linear Layout (defining local variable ll)
 		ll = new LinearLayout(this);
@@ -116,54 +120,35 @@ public class MainActivity extends Activity
 		// Adding the TextView to the Linear Layout
 		ll.addView(filterLabel);
 
-		// Setting Local Variable 'searchField'
-		searchField = new EditText(this);
-		// Setting PlaceHolder Text for searchField
-		searchField.setHint(R.string.searchFieldHint);
-		// Setting Max Lines to 1 
-		searchField.setSingleLine(true);
-		// Setting Text Size of searchField
-		searchField.setTextSize(12);
-		// Adding the EditText field to the Linear Layout
-		ll.addView(searchField);
+		// Spinner Adapter
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, mReleaseYears);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
-		// Setting Local Variable 'searchBtn'
-		searchBtn = new Button(this);
-		// Setting the Text for the button
-		searchBtn.setText(R.string.searchBtn);
-		// Setting the Text Size for the button
-		searchBtn.setTextSize(12);
-		// Setting the onClickListener (methods called when clicked) for the searchBtn
-		searchBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// If conditional checking length of the searchField to ensure user has typed in text before conducting what would be a search in project 2.
-				int z = 0;
-				if (searchField.length() == z)
+		// Creating the spinner
+		Spinner viewSpinner = new Spinner(context);
+		viewSpinner.setAdapter(spinnerAdapter);
+		viewSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+			{
+				mConnected = WebClass.grabConnectionStatus(context);
+				if (mConnected)
 				{
-					// Setting resultsView text to predefined string & background color to red
-					resultsView.setBackgroundColor(Color.RED);
-					resultsView.setText(R.string.searchError);
+					performSearch("http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&format=json&limit=5&sort=original_release_date:asc&filter=expected_release_year:"+mReleaseYears[position]);
 				}
 				else
 				{
-					mConnected = WebClass.grabConnectionStatus(context);
-					if (mConnected)
-					{
-						performSearch("http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&format=json&limit=5&sort=original_release_date:asc&filter=expected_release_year:2014|2100,name:"+searchField.getText().toString());
-					}
-					else
-					{
-						resultsView.setText("You are not connected to the internet, please check your connection and try again.");
-					}
+					resultsView.setText("You are not connected to the internet, please check your connection and try again.");
 				}
-				// Utilizing InputMethodManager to Dismiss the android keyboard
-				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
+			}
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				
 			}
 		});
-		// Adding the Button to the Linear Layout
-		ll.addView(searchBtn);
+		ll.addView(viewSpinner);
+		
+	
 		
 		// Setting Local Variable 'sub header'
 		subheader = new TextView(this);
@@ -199,15 +184,7 @@ public class MainActivity extends Activity
 		// Setting the Result View Local Variable
 		resultsView = new TextView(this);
 		// Checking connection status by calling the method with context as argument.
-		mConnected = WebClass.grabConnectionStatus(context);
-		if (mConnected)
-		{
-			performSearch(mUrlString);
-		}
-		else
-		{
-			resultsView.setText("You are not connected to the internet, please check your connection and try again.");
-		}
+		
 		// Setting the Results Text View Properties (text, text color, text size, background color, and gravity) 
 		resultsView.setBackgroundColor(Color.DKGRAY);
 		resultsView.setTextColor(Color.WHITE);
@@ -301,11 +278,8 @@ public class MainActivity extends Activity
     		       });
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// Temporarily setting the resultsView to JSON data returned from 'result'.
-			resultsView.setText(result);
 		}
 	}
 	@Override
