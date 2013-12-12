@@ -39,8 +39,7 @@ import android.widget.TextView;
 
 import com.jasonwoolard.java1project1.web.WebClass;
 
-public class MainActivity extends Activity 
-{
+public class MainActivity extends Activity {
 	// Local Variables
 	static String mTAG = "NETWORK ACTIVITY - MainActivity Class";
 	public static String mUrlString = "http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&filter=expected_release_year:2014&format=json&limit=5&sort=original_release_date:asc";
@@ -59,24 +58,26 @@ public class MainActivity extends Activity
 	TextView deck;
 	TextView release;
 	Boolean mConnected = false;
-	String [] mReleaseYears;
-	
+	String[] mReleaseYears;
+
 	// Node names from JSON Data
 	private static final String TAG_PARENT = "results";
 	private static final String TAG_NAME = "name";
 	private static final String TAG_DECK = "deck";
 	private static final String TAG_RELEASE = "expected_release_year";
-	
+
+	// ArrayList HashMap entitled gameList to store json data to be used throughout app
 	ArrayList<HashMap<String, String>> gameList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Setting Local Var Context to this activity
 		context = this;
-        gameList = new ArrayList<HashMap<String, String>>();
-        mReleaseYears = getResources().getStringArray(R.array.yearArray);
-        
-		// Setting 're' variable to return the resources for apps package
+		// Setting gameList Local Var to a new ArrayList HashMap to store data
+		gameList = new ArrayList<HashMap<String, String>>();
+		// Setting mReleaseYears Local Var to String Array from resources
+		mReleaseYears = getResources().getStringArray(R.array.yearArray);
 		// Creating the Linear Layout (defining local variable ll)
 		ll = new LinearLayout(this);
 		// Setting the orientation of the Linear Layout to VERTICAL, as opposed to the opposite - HORIZONTAL
@@ -85,7 +86,8 @@ public class MainActivity extends Activity
 		llp = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT);
-		// Setting the Linear Layouts parameters to the defined local variable 'llp'
+		// Setting the Linear Layouts parameters to the defined local variable
+		// 'llp'
 		ll.setLayoutParams(llp);
 
 		// Setting Local Variable 'header'
@@ -104,7 +106,7 @@ public class MainActivity extends Activity
 		header.setTextColor(Color.WHITE);
 		// Adding the TextView to the Linear Layout
 		ll.addView(header);
-		
+
 		// Setting Local Variable 'filterLabel'
 		filterLabel = new TextView(this);
 		// Setting the Text for the created TextView
@@ -120,36 +122,39 @@ public class MainActivity extends Activity
 		// Adding the TextView to the Linear Layout
 		ll.addView(filterLabel);
 
-		// Spinner Adapter
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, mReleaseYears);
+		// Creating Spinner Adapter
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,
+				android.R.layout.simple_spinner_item, mReleaseYears);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
+
 		// Creating the spinner
 		Spinner viewSpinner = new Spinner(context);
+		// Setting the spinners adapter to created adapter 'spinnerAdapter'
 		viewSpinner.setAdapter(spinnerAdapter);
-		viewSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
-		{
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-			{
+		// Setting
+		viewSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				// Setting Local Var Boolean 'mConnected' to the current context's status
 				mConnected = WebClass.grabConnectionStatus(context);
-				if (mConnected)
-				{
-					performSearch("http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&format=json&limit=5&sort=original_release_date:asc&filter=expected_release_year:"+mReleaseYears[position]);
-				}
-				else
-				{
+				// If connected...
+				if (mConnected) {
+					// Performing a search using performSearch method based off current selected spinner position. Passes is data from array (mReleaseYears) based on selection to allow user manipulation of data.
+					performSearch("http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&format=json&limit=5&sort=original_release_date:asc&filter=expected_release_year:"
+							+ mReleaseYears[position]);
+				// If not connected...
+				} else {
+					// Setting the result's view text
 					resultsView.setText("You are not connected to the internet, please check your connection and try again.");
 				}
 			}
-			public void onNothingSelected(AdapterView<?> arg0)
-			{
-				
+			// Method onNothingSelected...self explanatory method not utilized at the moment.
+			public void onNothingSelected(AdapterView<?> arg0) {
+
 			}
 		});
+		// Adding viewSpinenr to the Linear Layout
 		ll.addView(viewSpinner);
-		
-	
-		
+
 		// Setting Local Variable 'sub header'
 		subheader = new TextView(this);
 		// Setting the Text for the created TextView
@@ -164,15 +169,17 @@ public class MainActivity extends Activity
 		subheader.setTextColor(Color.DKGRAY);
 		// Adding the TextView to the Linear Layout
 		ll.addView(subheader);
-				
+
 		// Create List View
 		list = new ListView(this);
+		// Setting Id of list to 15
 		list.setId(15);
+		// Adding the list to the Linear Layout
 		ll.addView(list);
 
 		// Setting the Results Text View Local Variable
 		resultsLabel = new TextView(this);
-		// Setting the Results Text View Properties (text, text color, text size, background color, and gravity) 
+		// Setting the Results Text View Properties (text, text color, text size, background color, and gravity)
 		resultsLabel.setText(R.string.gameDetailText);
 		resultsLabel.setTextColor(Color.DKGRAY);
 		resultsLabel.setTextSize(12);
@@ -183,108 +190,133 @@ public class MainActivity extends Activity
 
 		// Setting the Result View Local Variable
 		resultsView = new TextView(this);
-		// Checking connection status by calling the method with context as argument.
-		
-		// Setting the Results Text View Properties (text, text color, text size, background color, and gravity) 
+
+		// Setting the Results Text View Properties (text, text color, text size, background color, and gravity)
 		resultsView.setBackgroundColor(Color.DKGRAY);
 		resultsView.setTextColor(Color.WHITE);
 		resultsView.setTextSize(10);
 		resultsView.setGravity(Gravity.CENTER_HORIZONTAL);
 		// Adding the Results Text View to the Linear Layout
 		ll.addView(resultsView);
-		
+
 		// Setting the content view as the created LinearLayout above
 		setContentView(ll);
 	}
-	private void performSearch(String item){
-		
+
+	// Private method to perform a search based on url string passed in
+	private void performSearch(String item) {
+		// Setting initialURL to item url passed in as argument
 		String initialURL = item;
-		
+		// Initializing finalURL, type URL
 		URL finalURL;
-		try{
+		try {
+			// Setting finalURL to new URL with initialURL
 			finalURL = new URL(initialURL);
+			// Setting gd as new instance of grabData method
 			grabData gd = new grabData();
+			// Calling execute with finalURL passed in (which is initial item url passed in)
 			gd.execute(finalURL);
-		} catch (MalformedURLException e){
+		} catch (MalformedURLException e) {
+			// Logging Malformed URLException
 			Log.e("INCORRECT URL", "CHECK URL PASSED");
+			// Setting finalURL to null
 			finalURL = null;
 		}
 	}
+
 	// Private 'grabData' class extending from AsyncTask (asynchronous)
-	private class grabData extends AsyncTask<URL, Void, String>
-	{
-		//onPreExecute Method - Setting TextView Cars to TextView IDS located in xml
-		protected void onPreExecute() 
-		{
+	private class grabData extends AsyncTask<URL, Void, String> {
+		// onPreExecute Method - Setting TextView Cars to TextView IDS located in xml
+		protected void onPreExecute() {
 			super.onPreExecute();
-			// Clearing out the GameList
+			// Clearing out the GameList (for reloads)
 			gameList.clear();
-	        name = (TextView)findViewById(R.id.name);
-	        deck = (TextView)findViewById(R.id.deck);
-	        release = (TextView)findViewById(R.id.release);  
-	    }
+			// Setting name,deck,and release textviews to ones found by Id in resources
+			name = (TextView) findViewById(R.id.name);
+			deck = (TextView) findViewById(R.id.deck);
+			release = (TextView) findViewById(R.id.release);
+		}
+
 		@Override
 		protected String doInBackground(URL... urls) {
 			// Resetting URL
 			String fURL = "";
-			for (URL url: urls)
-			{
+			for (URL url : urls) {
+				// Setting fURL stringVar to response of getURLReponse method from WebClass class.
 				fURL = WebClass.getURLResponse(url);
 			}
+			// Returning fURL string var
 			return fURL;
 		}
-		// OnPostExecute method
-		protected void onPostExecute(String result)
-		{
-			try {
-				JSONObject json = new JSONObject(result);
-				JSONArray results = json.getJSONArray(TAG_PARENT);
-				
-				int j = results.length();
-				for(int i=0; i<j; i++){
-    				JSONObject jo = results.getJSONObject(i);
-    				
-    				// Storing  JSON Nodes into separate strings
-    				String nam = jo.getString(TAG_NAME);
-    				String dec = jo.getString(TAG_DECK);
-    				String rel = jo.getString(TAG_RELEASE);
-    				// Creating HashMap entitled map and initializing it
-    				HashMap<String, String> map = new HashMap<String, String>();
-    				// Putting JSON nodes into map
-        			map.put(TAG_RELEASE, rel);
-    				map.put(TAG_NAME, nam);
-    				map.put(TAG_DECK, dec);
-    				// Adding data to gameList Local var
-    				gameList.add(map);
-    				// Setting list local var to created listView (oncreate)
-    				list=(ListView)findViewById(15);
-    				
-    				ListAdapter adapter = new SimpleAdapter(MainActivity.this, gameList,
-    						R.layout.list_view,
-    						new String[] { TAG_NAME, TAG_RELEASE }, new int[] {
-    								R.id.name, R.id.release});
 
-    				list.setAdapter(adapter);
-    				list.setOnItemClickListener(new AdapterView.OnItemClickListener() 
-    				{
-    					@Override
-    		            public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
-    		            {
-    						resultsView.setBackgroundColor(Color.DKGRAY);
-    		                resultsView.setText("Game: " + gameList.get(+position).get("name") + "\n" +
-    		                					"About Game: " + gameList.get(+position).get("deck") + "\n" +
-    		                					"Release Year: " + gameList.get(+position).get("expected_release_year"));
-    		            }
-    		       });
+		// OnPostExecute method
+		protected void onPostExecute(String result) {
+			try {
+				// Setting json var for type JSONObject to new JSOBObject with passed in string result
+				JSONObject json = new JSONObject(result);
+				// Setting results JSONArray var to results json node
+				JSONArray results = json.getJSONArray(TAG_PARENT);
+				// Setting j int var to results array length
+				int j = results.length();
+				// For conditional cycling through results array grabbing defined nodes and storing them
+				for (int i = 0; i < j; i++) {
+					// Setting JSONObject var 'jo' to each object within results array
+					JSONObject jo = results.getJSONObject(i);
+
+					// Storing pulled in JSON Nodes into separate strings 
+					String nam = jo.getString(TAG_NAME);
+					String dec = jo.getString(TAG_DECK);
+					String rel = jo.getString(TAG_RELEASE);
+					
+					// Creating HashMap entitled map and initializing it
+					HashMap<String, String> map = new HashMap<String, String>();
+					
+					// Putting JSON nodes into map
+					map.put(TAG_RELEASE, rel);
+					map.put(TAG_NAME, nam);
+					map.put(TAG_DECK, dec);
+					
+					// Adding data to gameList Local var
+					gameList.add(map);
+					
+					// Setting list local var to created listView (onCreate)
+					list = (ListView) findViewById(15);
+					// Setting ListAdapter entitled adapter to a new SimpleAdapter with data gameList, view Mainactivity and utilizing defined custom list_view.xml, while displaying  game name and release.
+					ListAdapter adapter = new SimpleAdapter(MainActivity.this,
+							gameList, R.layout.list_view, new String[] {
+									TAG_NAME, TAG_RELEASE }, new int[] {
+									R.id.name, R.id.release });
+					// Setting list's adapter to adapter created above
+					list.setAdapter(adapter);
+					// Setting list's item click listener
+					list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+						@Override
+						// Method to be called upon item click within list
+						public void onItemClick(AdapterView<?> parent,
+								View view, int position, long id) {
+							// Setting the resultsView background color to dark gray (in case an error occurs, and it's currently red)
+							resultsView.setBackgroundColor(Color.DKGRAY);
+							// Setting the resultView to display the current position's (in list) item details based off pulled in json data thats stored in gameList
+							resultsView.setText("Game: "
+									+ gameList.get(+position).get("name")
+									+ "\n"
+									+ "About Game: "
+									+ gameList.get(+position).get("deck")
+									+ "\n"
+									+ "Release Year: "
+									+ gameList.get(+position).get(
+											"expected_release_year"));
+						}
+					});
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;

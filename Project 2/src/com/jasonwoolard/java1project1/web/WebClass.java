@@ -20,7 +20,6 @@ import android.util.Log;
 public class WebClass {
 	static Boolean isConnected = false;
 	static String mTAG = "NETWORK ACTIVITY - Webclass Class";
-	
 	public static Boolean grabConnectionStatus(Context context){
 		checkConnectionStatus(context);
 		return isConnected;
