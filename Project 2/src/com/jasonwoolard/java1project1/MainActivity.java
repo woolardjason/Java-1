@@ -42,7 +42,7 @@ import com.jasonwoolard.java1project1.web.WebClass;
 public class MainActivity extends Activity {
 	// Local Variables
 	static String mTAG = "NETWORK ACTIVITY - MainActivity Class";
-	public static String mUrlString = "http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&filter=expected_release_year:2014&format=json&limit=5&sort=original_release_date:asc";
+	public static String mUrlString = "http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&format=json&limit=5&sort=original_release_date:asc&filter=expected_release_year:";
 	LinearLayout ll;
 	LinearLayout.LayoutParams llp;
 	TextView header;
@@ -139,12 +139,11 @@ public class MainActivity extends Activity {
 				// If connected...
 				if (mConnected) {
 					// Performing a search using performSearch method based off current selected spinner position. Passes is data from array (mReleaseYears) based on selection to allow user manipulation of data.
-					performSearch("http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&format=json&limit=5&sort=original_release_date:asc&filter=expected_release_year:"
-							+ mReleaseYears[position]);
+					performSearch(mUrlString + mReleaseYears[position]);
 				// If not connected...
 				} else {
 					// Setting the result's view text
-					resultsView.setText("You are not connected to the internet, please check your connection and try again.");
+					resultsView.setText(R.string.networkError);
 				}
 			}
 			// Method onNothingSelected...self explanatory method not utilized at the moment.

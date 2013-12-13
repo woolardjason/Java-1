@@ -14,7 +14,7 @@
 	<string name="searchFieldHint">Enter Game Title</string>
 	<string name="searchBtn">SEARCH!</string>
 	<string name="searchError">Please enter a video game title before attempting to search.</string>
-	<string name="toastMsg">Video filtering by title will be available in project 2 when pulling from api.</string>
+	<string name="networkError">You are not connected to the internet, please check your connection and try again.</string>
 	<string-array name="yearArray">
 	    <item>2014</item>
 	    <item>2015</item>
