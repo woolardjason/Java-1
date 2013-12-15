@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Java 1 Week 4</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="search_button">Search!</string>
+	<string-array name="yearArray">
+	    <item>2014</item>
+	    <item>2015</item>
+	    <item>2016</item>
+	    <item>2017</item>
+	</string-array>
+</resources>
