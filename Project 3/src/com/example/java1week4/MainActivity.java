@@ -8,6 +8,9 @@ import android.view.Menu;
 public class MainActivity extends Activity {
 	// Local Variables
 	Context context;
+	String mTAG = "NETWORK ACTIVITY - MainActivity Class";
+	String mUrlString = "http://www.giantbomb.com/api/games/?api_key=84bb1f7ad08b299e6c29992eff7ed6278f406a15&format=json&limit=5&sort=original_release_date:asc&filter=expected_release_year:";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

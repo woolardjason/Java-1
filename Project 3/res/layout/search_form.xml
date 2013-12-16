@@ -3,20 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+    <TextView
+    	android:id="@+id/header_text"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:textSize="16sp"
+		android:textColor="@color/white"
+		android:background="@color/dgray"
+		android:text="@string/app_header" />
+    <TextView
+        android:id="@+id/subheader_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/list_header"
+        android:textSize="12sp"
+        android:background="@color/lgray"
+        android:textColor="@color/black" />
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Spinner
         	android:id="@+id/release_years"
-        	android:layout_width="0dip"
-        	android:layout_weight="1"
+        	android:layout_width="match_parent"
         	android:layout_height="wrap_content"/>
-         <Button
-        	android:id="@+id/submit_button"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/search_button" />
+  
     </LinearLayout>
 </LinearLayout>
