@@ -8,6 +8,7 @@
     <string name="search_header">Search Video Games by Year</string>
     <string name="list_header">Choose Game to View More Details!</string>
     <string name="details_header">More Game Details:</string>
+    <string name="networkError">You are not connected to the internet, please check your connection and try again.</string>
 	<string-array name="yearArray">
 		<item>2014</item>
 	    <item>2015</item>

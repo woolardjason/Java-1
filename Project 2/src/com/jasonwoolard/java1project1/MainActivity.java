@@ -66,16 +66,13 @@ public class MainActivity extends Activity {
 	private static final String TAG_DECK = "deck";
 	private static final String TAG_RELEASE = "expected_release_year";
 
-	// ArrayList HashMap entitled gameList to store json data to be used throughout app
-	ArrayList<HashMap<String, String>> gameList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Setting Local Var Context to this activity
 		context = this;
-		// Setting gameList Local Var to a new ArrayList HashMap to store data
-		gameList = new ArrayList<HashMap<String, String>>();
+		
 		// Setting mReleaseYears Local Var to String Array from resources
 		mReleaseYears = getResources().getStringArray(R.array.yearArray);
 		// Creating the Linear Layout (defining local variable ll)

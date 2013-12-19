@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class NetworkConn {
 	static Boolean isConnected = false;
-	static String mTAG = "NETWORK ACTIVITY - Webclass Class";
+	static String mTAG = "NETWORK ACTIVITY - NetworkConn Class";
 	public static Boolean grabConnectionStatus(Context context){
 		checkConnectionStatus(context);
 		return isConnected;
@@ -35,12 +35,13 @@ public class NetworkConn {
 		}
 	}
 	// getURLResponse method
-	public static String getURLResponse(URL url) {
+	public static String getURLResponse(String url) {
 		// Resetting response var by setting it to equal nothing.
 		String response = "";
 		try {
 			// Initializing URLConnection
-			URLConnection connection = url.openConnection();
+            URL url1 = new URL(url);
+			URLConnection connection = url1.openConnection();
 			// Setting created bufferedinputstring to connection input stream
 			BufferedInputStream bis = new BufferedInputStream(
 					connection.getInputStream());
