@@ -33,14 +33,22 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0003;
-        public static final int header_text=0x7f0a0000;
-        public static final int release_years=0x7f0a0002;
-        public static final int subheader_text=0x7f0a0001;
+        public static final int action_settings=0x7f0a000a;
+        public static final int deck=0x7f0a0001;
+        public static final int game_details_header=0x7f0a0008;
+        public static final int game_list=0x7f0a0007;
+        public static final int header_text=0x7f0a0003;
+        public static final int listview_header=0x7f0a0006;
+        public static final int name=0x7f0a0000;
+        public static final int release=0x7f0a0002;
+        public static final int release_years=0x7f0a0005;
+        public static final int results_view=0x7f0a0009;
+        public static final int subheader_text=0x7f0a0004;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int search_form=0x7f030001;
+        public static final int list_view=0x7f030001;
+        public static final int search_form=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f090000;
