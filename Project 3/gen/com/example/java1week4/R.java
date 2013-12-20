@@ -90,5 +90,7 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f080001;
+        public static final int Results=0x7f080003;
+        public static final int SubHeader=0x7f080002;
     }
 }

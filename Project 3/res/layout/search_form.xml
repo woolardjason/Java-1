@@ -3,60 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
     <TextView
-    	android:id="@+id/header_text"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:textSize="16sp"
-		android:textColor="@color/white"
-		android:background="@color/dgray"
-		android:text="@string/app_header" />
-    <TextView
-        android:id="@+id/subheader_text"
+        android:id="@+id/header_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@color/dgray"
         android:gravity="center"
-        android:text="@string/list_header"
-        android:textSize="12sp"
-        android:background="@color/lgray"
-        android:textColor="@color/black" />
-        <Spinner
-        	android:id="@+id/release_years"
-        	android:layout_width="match_parent"
-        	android:layout_height="wrap_content"/>
+        android:text="@string/app_header"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
-        <TextView 
-            android:id="@+id/listview_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:background="@color/lgray"
-            android:text="@string/list_header"/>
-        <ListView 
-            android:id="@+id/game_list"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"></ListView>
-        <TextView 
-            android:id="@+id/game_details_header"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:background="@color/lgray"
-            android:text="@string/details_header" />
-        <TextView 
-            android:id="@+id/results_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:background="@color/dgray"
-            android:text="@string/list_header" />
-  
- 
+    <TextView
+        android:id="@+id/subheader_text"
+        style="@style/SubHeader"
+        android:text="@string/list_header" />
+
+    <Spinner
+        android:id="@+id/release_years"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/listview_header"
+        style="@style/SubHeader"
+        android:text="@string/list_header" />
+
+    <ListView
+        android:id="@+id/game_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/game_details_header"
+        style="@style/SubHeader"
+        android:text="@string/details_header" />
+
+    <TextView
+        android:id="@+id/results_view"
+        style="@style/Results"
+        android:text="@string/list_header" />
+
 </LinearLayout>
